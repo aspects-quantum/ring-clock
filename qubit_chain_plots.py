@@ -604,49 +604,6 @@ def expParamPlotter(nq_range,mode=""):
     plt.close()
     pass
 
-def avgVarPlot(data_files,labels=None):
-    """
-    Generate loglog plot for clock average tick time and variance
-    as a function of chain length. 
-    Input:
-        data_files : string of list of strings containing data files
-    """
-    data_files = [data_files] if not isinstance(data_files, list) else data_files
-
-    nq_minmax = []
-
-    fig, axs = plt.subplots(1,2,figsize=(1.8*3.417,1.3*3.417))
-    for k, data_file_name in enumerate(data_files):
-        data_file = np.load("data/"+data_file_name)
-
-        if len(nq_minmax)<2:
-            nq_minmax.append(min(data_file[0,:]))
-            nq_minmax.append(max(data_file[0,:]))
-        else:
-            nq_minmax[0] = min(data_file[0,:]) if min(data_file[0,:]) <= nq_minmax[0] else nq_minmax[0]
-            nq_minmax[1] = max(data_file[0,:]) if max(data_file[0,:]) >= nq_minmax[1] else nq_minmax[1]
-        
-        axs[0].loglog(data_file[0,:],1/(data_file[2,:]**2 * (data_file[1,:])),linestyle="",marker="x",color=col_scheme_BR[2*k],label=labels[k]+r"$\mathrm{Var}[T]$")
-        axs[1].loglog(data_file[0,:],1/data_file[2,:],linestyle="",marker="x",color=col_scheme_BR[2*k],label=labels[k]+r"$\langle T\rangle$")
-        
-    axs[0].loglog(nq_minmax,5*np.array(nq_minmax)**(2./3),label=r"$\propto d^{\frac{2}{3}}$",linestyle="--",color="black")
-    axs[1].loglog(nq_minmax,2*np.array(nq_minmax),label=r"$\propto d$",linestyle="--",color="black")
-    # plt.loglog(nq_minmax,nq_minmax**1.5,label=r"$\propto d^{1.5}$",linestyle="--",color="darkgreen")
-
-    for ax in axs:    
-        ax.grid(True,linestyle="--",color="gray")
-        ax.set_xlabel(r"number of sites $d$")
-        ax.legend(loc="upper left")
-
-    axs[0].set_ylabel(r"time variance $\sigma^2 = [\Gamma^{-2}]$")
-    axs[1].set_ylabel(r"average time $\mu = [\Gamma^{-1}]$")
-
-    plt.tight_layout()
-    plt.savefig("figures/variance.jpg",dpi=600)
-    # plt.show()
-    plt.close()
-    pass
-
 def evolutionPlotPaper(nq,paramGetter):
     """
     Generate plot for 3d evolution figure
@@ -815,6 +772,6 @@ def plotCouplingsPaper(_d,paramGetter=getOptParam):
     plt.legend(loc="best")
     plt.tight_layout()
     plt.savefig("figures/rates_comparison.jpg")
-    plt.show()
+    # plt.show()
     plt.close()
     pass

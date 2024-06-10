@@ -11,7 +11,7 @@ from qubit_chain_params import getOptParam, getExpParam, expWrapper
 
 from qubit_chain import RingClock
 
-from qubit_chain_plots import plotTransmission, widthVarPlausibilization, comparisonExpTrue, tickNumberFake, accuracyComparison, tiltedEvalPlotter, kspacePlotter, expParamPlotter, triplePanelPlot, plotCouplingsPaper, evolutionPlotPaper, avgVarPlot
+from qubit_chain_plots import plotTransmission, widthVarPlausibilization, comparisonExpTrue, tickNumberFake, accuracyComparison, tiltedEvalPlotter, kspacePlotter, expParamPlotter, triplePanelPlot, plotCouplingsPaper, evolutionPlotPaper
 
 from qutip_extension import diss
 
@@ -67,33 +67,28 @@ def generatePlottableData(nq_range,paramGetter,id="",mode="full",alpha=3.0):
     pass
 
 if __name__ == "__main__":
-    data_files = ["result_nq_10_1200_irrev.npy"]
-    labels = ["forced exp."]
-
     d_range = np.arange(10,201,5)
 
-    plotTransmission(32)
+    # plotTransmission(32)
 
-    widthVarPlausibilization(np.concatenate((np.arange(30,101,10),np.arange(100,1201,100))),lambda nq, oneramp=False : getExpParam(nq,mode="plus",oneramp=oneramp))
+    # widthVarPlausibilization(np.concatenate((np.arange(30,101,10),np.arange(100,1201,100))),lambda nq, oneramp=False : getExpParam(nq,mode="plus",oneramp=oneramp))
 
-    comparisonExpTrue("data/res_nq_1_53.npy","data/result_nq_10_1200_irrev.npy")
+    # comparisonExpTrue("data/res_nq_1_53.npy","data/result_nq_10_1200_irrev.npy")
 
-    tiltedEvalPlotter(d_range,lambda nq : getExpParam(nq,mode="plus"))
+    # tiltedEvalPlotter(d_range,lambda nq : getExpParam(nq,mode="plus"))
 
-    tickNumberFake()
+    # tickNumberFake()
 
-    alphas = np.array([4.5,4.0,3.5,1.5,1.0])
-    data_files = ["result_nq_10_200_full_stp5_alpha4.5.npy",
-                  "result_nq_10_200_full_stp5_alpha4.0.npy",
-                  "result_nq_10_200_full_stp5_alpha3.5.npy",
-                  "result_nq_10_200_full_stp5_alpha1.5.npy",
-                  "result_nq_10_200_full_stp5_alpha1.0.npy"]
+    # alphas = np.array([4.5,4.0,3.5,1.5,1.0])
+    # data_files = ["result_nq_10_200_full_stp5_alpha4.5.npy",
+    #               "result_nq_10_200_full_stp5_alpha4.0.npy",
+    #               "result_nq_10_200_full_stp5_alpha3.5.npy",
+    #               "result_nq_10_200_full_stp5_alpha1.5.npy",
+    #               "result_nq_10_200_full_stp5_alpha1.0.npy"]
     
-    accuracyComparison(data_files,alphas,relative=True)
-    # for alpha in [3.5,4.5]:
-    #     generatePlottableData(d_range,lambda nq : getExpParam(nq,"plus"),id="_stp5_alpha"+str(alpha),mode="full",alpha=alpha)
-
-    avgVarPlot(data_files,labels)
+    # accuracyComparison(data_files,alphas,relative=True)
+    # # for alpha in [3.5,4.5]:
+    # #     generatePlottableData(d_range,lambda nq : getExpParam(nq,"plus"),id="_stp5_alpha"+str(alpha),mode="full",alpha=alpha)
 
     kspacePlotter(np.array([100, 1000]),lambda nq : getExpParam(nq,mode="plus"))
 

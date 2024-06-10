@@ -1,11 +1,6 @@
 import numpy as np
-import matplotlib.pyplot as plt
-import matplotlib.animation as animation
 
 import time
-
-from scipy.integrate import odeint, complex_ode
-
 
 from scipy.optimize import minimize
 from snr_toolbox import SNR
@@ -14,38 +9,19 @@ from qubit_chain_params import expWrapper, getExpParam, expWrapperPlus
 
 from multiprocessing import Pool
 
-w = 2.0
-bH = 1e-1
-bC = np.inf
-gH = 1e-1
-gC = 1e-1
-
 Gamma = np.array([1e0])
-
 
 def mySNR(g):
     n_qubits = len(g)+1
     dim = n_qubits
 
     # Set Hamiltonian
-    # H0
-    H0 = np.eye(dim)*w
-
-    # HI
-    H0 += np.diag(g,-1) + np.diag(g,1)
+    H0 = np.diag(g,-1) + np.diag(g,1)
     
-    # # Inverse beta thermalization
-    # JH = np.zeros((dim,dim))
-    # JH[1,0] = np.sqrt(gH)
-
     # Set Tick Operator
-    JTick = []
-    for k,GammaK in enumerate(Gamma):
-        # Generate jump matrix
-        _JTick = np.zeros((dim,dim))
-        _JTick[0,-k-1] = np.sqrt(GammaK)
-
-        JTick.append(_JTick)
+    _JTick = np.zeros((dim,dim))
+    _JTick[0,-1] = 1
+    JTick = [_JTick]
 
     # Set initial state
     rho0 = np.zeros((dim,dim))
